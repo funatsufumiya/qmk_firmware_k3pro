@@ -1,3 +1,5 @@
+(NOTE: forked from [Keychron/qmk_firmware bluetooth_playground branch for keychron k3 pro](https://github.com/Keychron/qmk_firmware/tree/bluetooth_playground/keyboards/keychron/k3_pro))
+
 # Quantum Mechanical Keyboard Firmware
 
 [![Current Version](https://img.shields.io/github/tag/qmk/qmk_firmware.svg)](https://github.com/qmk/qmk_firmware/tags)
