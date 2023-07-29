@@ -1,5 +1,13 @@
 (NOTE: forked from [Keychron/qmk_firmware bluetooth_playground branch for keychron k3 pro](https://github.com/Keychron/qmk_firmware/tree/bluetooth_playground/keyboards/keychron/k3_pro))
 
+## K3 Pro
+
+see [keyboards/keychron/k3_pro/readme.md](keyboards/keychron/k3_pro/readme.md)
+
+make commmand: `make keychron/k3_pro/jis/white:default:flash`
+
+----
+
 # Quantum Mechanical Keyboard Firmware
 
 [![Current Version](https://img.shields.io/github/tag/qmk/qmk_firmware.svg)](https://github.com/qmk/qmk_firmware/tags)
@@ -36,11 +44,3 @@ QMK is developed and maintained by Jack Humbert of OLKB with contributions from 
 ## Official Website
 
 [qmk.fm](https://qmk.fm) is the official website of QMK, where you can find links to this page, the documentation, and the keyboards supported by QMK.
-
-----
-
-## K3 Pro
-
-see [keyboards/keychron/k3_pro/readme.md](keyboards/keychron/k3_pro/readme.md)
-
-make commmand: `make keychron/k3_pro/jis/white:default:flash`
