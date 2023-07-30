@@ -94,13 +94,14 @@ static uint64_t keycomb = (uint64_t)0; // 新下駄 // 同時押しの状態を�
 #define B_3    ((uint64_t)1<<32) // 新下駄
 #define B_4    ((uint64_t)1<<33) // 新下駄
 #define B_5    ((uint64_t)1<<34) // 新下駄
-#define B_7    ((uint64_t)1<<35) // 新下駄
-#define B_8    ((uint64_t)1<<36) // 新下駄
-#define B_9    ((uint64_t)1<<37) // 新下駄
-#define B_0    ((uint64_t)1<<38) // 新下駄
-#define B_MINS ((uint64_t)1<<39) // 新下駄
+#define B_6    ((uint64_t)1<<35) // 新下駄
+#define B_7    ((uint64_t)1<<36) // 新下駄
+#define B_8    ((uint64_t)1<<37) // 新下駄
+#define B_9    ((uint64_t)1<<38) // 新下駄
+#define B_0    ((uint64_t)1<<39) // 新下駄
+#define B_MINS ((uint64_t)1<<40) // 新下駄
 
-#define B_X1   ((uint64_t)1<<40) // 新下駄
+#define B_X1   ((uint64_t)1<<41) // 新下駄
 
 // 文字入力バッファ
 static uint16_t ninputs[NGBUFFER];
@@ -151,6 +152,7 @@ const uint64_t ng_key[] = { // 新下駄
   [NG_3    - NG_Q] = B_3, // 新下駄
   [NG_4    - NG_Q] = B_4, // 新下駄
   [NG_5    - NG_Q] = B_5, // 新下駄
+  [NG_6    - NG_Q] = B_6, // 新下駄
   [NG_7    - NG_Q] = B_7, // 新下駄
   [NG_8    - NG_Q] = B_8, // 新下駄
   [NG_9    - NG_Q] = B_9, // 新下駄
@@ -195,6 +197,18 @@ typedef struct {
 
 const PROGMEM naginata_keymap ngmap[] = { // 新下駄
   // 単独
+  {.key = B_1               , .kana = "1"},
+  {.key = B_2               , .kana = "2"},
+  {.key = B_3               , .kana = "3"},
+  {.key = B_4               , .kana = "4"},
+  {.key = B_5               , .kana = "5"},
+  {.key = B_6               , .kana = "6"},
+  {.key = B_7               , .kana = "7"},
+  {.key = B_8               , .kana = "8"},
+  {.key = B_9               , .kana = "9"},
+  {.key = B_0               , .kana = "0"},
+  {.key = B_MINS            , .kana = "-"},
+
   {.key = B_Q               , .kana = "-"},
   {.key = B_W               , .kana = "ni"},
   {.key = B_E               , .kana = "ha"},
@@ -264,6 +278,12 @@ const PROGMEM naginata_keymap ngmap[] = { // 新下駄
   {.key = B_D|B_DOT      , .kana = "pu"},
   {.key = B_D|B_SLSH     , .kana = "vu"},
 
+  {.key = B_K|B_1        , .kana = "la"},
+  {.key = B_K|B_2        , .kana = "li"},
+  {.key = B_K|B_3        , .kana = "lu"},
+  {.key = B_K|B_4        , .kana = "le"},
+  {.key = B_K|B_5        , .kana = "lo"},
+
   // 薬指シフト
   {.key = B_L|B_Q        , .kana = "di"},
   {.key = B_L|B_W        , .kana = "me"},
@@ -298,6 +318,48 @@ const PROGMEM naginata_keymap ngmap[] = { // 新下駄
   {.key = B_S|B_COMM     , .kana = "pi"},
   {.key = B_S|B_DOT      , .kana = "po"},
   {.key = B_S|B_SLSH     , .kana = "tile"},
+
+  {.key = B_L|B_1        , .kana = "xya"},
+  {.key = B_L|B_2        , .kana = "mya"},
+  {.key = B_L|B_3        , .kana = "myu"},
+  {.key = B_L|B_4        , .kana = "myo"},
+  {.key = B_L|B_5        , .kana = "xwa"},
+
+  {.key = B_I|B_E     , .kana = "sho"},
+  {.key = B_I|B_W     , .kana = "shu"},
+  {.key = B_I|B_R     , .kana = "kyu"},
+  {.key = B_I|B_F     , .kana = "kyo"},
+  {.key = B_I|B_V     , .kana = "kya"},
+  {.key = B_I|B_C     , .kana = "sha"},
+  {.key = B_I|B_Q     , .kana = "hyu"},
+  {.key = B_I|B_A     , .kana = "hyo"},
+  {.key = B_I|B_Z     , .kana = "hya"},
+  {.key = B_I|B_T     , .kana = "chu"},
+  {.key = B_I|B_G     , .kana = "cho"},
+  {.key = B_I|B_B     , .kana = "cha"},
+
+  {.key = B_I|B_1     , .kana = "xyu"},
+  {.key = B_I|B_2     , .kana = "bya"},
+  {.key = B_I|B_3     , .kana = "byu"},
+  {.key = B_I|B_4     , .kana = "byo"},
+
+  {.key = B_O|B_E     , .kana = "jo"},
+  {.key = B_O|B_W     , .kana = "ju"},
+  {.key = B_O|B_R     , .kana = "gyu"},
+  {.key = B_O|B_F     , .kana = "gyo"},
+  {.key = B_O|B_V     , .kana = "gya"},
+  {.key = B_O|B_C     , .kana = "ja"},
+  {.key = B_O|B_Q     , .kana = "ryu"},
+  {.key = B_O|B_A     , .kana = "ryo"},
+  {.key = B_O|B_Z     , .kana = "rya"},
+  {.key = B_O|B_T     , .kana = "nyu"},
+  {.key = B_O|B_G     , .kana = "nyo"},
+  {.key = B_O|B_B     , .kana = "nya"},
+
+  {.key = B_O|B_1     , .kana = "xyo"},
+  {.key = B_O|B_2     , .kana = "pya"},
+  {.key = B_O|B_3     , .kana = "pyu"},
+  {.key = B_O|B_4     , .kana = "pyo"},
 
   // 新下駄　未完成のかな定義をここに追加する
 
@@ -1228,11 +1290,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [_NAGINATA] = LAYOUT(
         _______, _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,
-        _______, KC_1,     KC_2,     KC_3,     KC_4,     KC_5,     KC_6,     KC_7,     KC_8,     KC_9,     KC_0,     KC_MINS,  KC_EQL,   KC_INT3,  KC_BSPC,  KC_PGUP,
-        _______, NG_Q,     NG_W,     NG_E,     NG_R,     NG_T,     NG_Y,     NG_U,     NG_I,     NG_O,     NG_P,     NG_X1,    KC_RBRC,                      KC_PGDN,
-        _______, NG_A,     NG_S,     NG_D,     NG_F,     NG_G,     NG_H,     NG_J,     NG_K,     NG_L,     NG_SCLN,  KC_QUOT,  _______,  _______,            _______,
-        _______,           NG_Z,     NG_X,     NG_C,     NG_V,     NG_B,     NG_N,     NG_M,     NG_COMM,  NG_DOT,   NG_SLSH,  _______,  _______,            _______,
-        _______, _______,  _______,  _______,                      _______,                      _______,  _______,  _______,  _______,  _______,  _______,  _______),
+        _______, NG_1,     NG_2,     NG_3,     NG_4,     NG_5,     NG_6,     NG_7,     NG_8,     NG_9,     NG_0,     NG_MINS,  KC_EQL,   KC_INT3,  KC_BSPC,  KC_PGUP,
+        KC_TAB,  NG_Q,     NG_W,     NG_E,     NG_R,     NG_T,     NG_Y,     NG_U,     NG_I,     NG_O,     NG_P,     NG_X1,    KC_RBRC,                      KC_PGDN,
+        KC_LCTL, NG_A,     NG_S,     NG_D,     NG_F,     NG_G,     NG_H,     NG_J,     NG_K,     NG_L,     NG_SCLN,  KC_BSPC,  _______,  _______,            _______,
+        KC_LSFT,           NG_Z,     NG_X,     NG_C,     NG_V,     NG_B,     NG_N,     NG_M,     NG_COMM,  NG_DOT,   NG_SLSH,  _______,  _______,            _______,
+        KC_LCTL, _______,  _______,  _______,                      _______,                      _______,  _______,  _______,  _______,  _______,  _______,  _______),
 
     [MAC_FN] = LAYOUT(
         _______,  KC_F1,    KC_F2,    KC_F3,    KC_F4,    KC_F5,    KC_F6,    KC_F7,    KC_F8,    KC_F9,    KC_F10,   KC_F11,   KC_F12,   TO_MAST,  TO_WINB,  BL_TOGG,

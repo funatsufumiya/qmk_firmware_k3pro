@@ -67,6 +67,7 @@ typedef enum naginata_keycodes {
   NG_3, // 新下駄
   NG_4, // 新下駄
   NG_5, // 新下駄
+  NG_6, // 新下駄
   NG_7, // 新下駄
   NG_8, // 新下駄
   NG_9, // 新下駄
