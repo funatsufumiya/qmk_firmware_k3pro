@@ -77,7 +77,7 @@ typedef enum naginata_keycodes {
   NG_X1, // 新下駄
 } NGKEYS;
 
-#define NG_SAFE_RANGE SAFE_RANGE+41 // 新下駄
+#define NG_SAFE_RANGE SAFE_RANGE+42 // 新下駄
 
 #define KC_NGSHFT NGSHFT
 

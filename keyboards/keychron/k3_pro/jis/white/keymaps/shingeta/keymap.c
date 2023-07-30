@@ -50,7 +50,7 @@ static uint8_t naginata_layer = 0; // レイヤー番号
 static uint8_t n_modifier = 0; // 押しているmodifierキーの数
 static uint64_t keycomb = (uint64_t)0; // 新下駄 // 同時押しの状態を示す。64bitの各ビットがキーに対応する。
 
-// 41ーを64bitの各ビットに割り当てる // 新下駄
+// 42ーを64bitの各ビットに割り当てる // 新下駄
 #define B_Q    ((uint64_t)1<<0)
 #define B_W    ((uint64_t)1<<1)
 #define B_E    ((uint64_t)1<<2)
@@ -158,6 +158,7 @@ const uint64_t ng_key[] = { // 新下駄
   [NG_9    - NG_Q] = B_9, // 新下駄
   [NG_0    - NG_Q] = B_0, // 新下駄
   [NG_MINS - NG_Q] = B_MINS, // 新下駄
+
   [NG_X1   - NG_Q] = B_X1, // 新下駄
 };
 
@@ -295,7 +296,6 @@ const PROGMEM naginata_keymap ngmap[] = { // 新下駄
   {.key = B_S|B_I        , .kana = "do"},
   {.key = B_S|B_O        , .kana = "ya"},
   {.key = B_S|B_P        , .kana = "je"},
-  {.key = B_S|B_X1       , .kana = ""},
 
   {.key = B_L|B_A        , .kana = "wo"},
   {.key = B_L|B_S        , .kana = "sa"},
