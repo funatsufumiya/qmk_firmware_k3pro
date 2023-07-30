@@ -398,24 +398,24 @@ const PROGMEM naginata_keymap ngmap2[] = { // 薙刀式
   {.key = B_B                      , .kana = "so"      }, // そ
   {.key = B_N                      , .kana = "ta"      }, // た
   {.key = B_SHFT|B_G               , .kana = "ti"      }, // ち
-  {.key = B_SHFT|B_L               , .kana = "tu"      }, // つ
+  {.key = B_SHFT|B_SCLN            , .kana = "tu"      }, // つ
   {.key = B_E                      , .kana = "te"      }, // て
   {.key = B_D                      , .kana = "to"      }, // と
   {.key = B_M                      , .kana = "na"      }, // な
   {.key = B_SHFT|B_D               , .kana = "ni"      }, // に
-  {.key = B_SHFT|B_W               , .kana = "nu"      }, // ぬ
-  {.key = B_SHFT|B_R               , .kana = "ne"      }, // ね
+  {.key = B_SHFT|B_R               , .kana = "nu"      }, // ぬ
+  {.key = B_SHFT|B_COMM            , .kana = "ne"      }, // ね
   {.key = B_SHFT|B_J               , .kana = "no"      }, // の
   {.key = B_C                      , .kana = "ha"      }, // は
   {.key = B_X                      , .kana = "hi"      }, // ひ
   {.key = B_SHFT|B_X               , .kana = "hi"      }, // ひ
-  {.key = B_SHFT|B_SCLN            , .kana = "hu"      }, // ふ
+  {.key = B_SHFT|B_DOT             , .kana = "hu"      }, // ふ
   {.key = B_P                      , .kana = "he"      }, // へ
   {.key = B_Z                      , .kana = "ho"      }, // ほ
   {.key = B_SHFT|B_Z               , .kana = "ho"      }, // ほ
   {.key = B_SHFT|B_F               , .kana = "ma"      }, // ま
   {.key = B_SHFT|B_B               , .kana = "mi"      }, // み
-  {.key = B_SHFT|B_COMM            , .kana = "mu"      }, // む
+  {.key = B_SHFT|B_W               , .kana = "mu"      }, // む
   {.key = B_SHFT|B_S               , .kana = "me"      }, // め
   {.key = B_SHFT|B_K               , .kana = "mo"      }, // も
   {.key = B_SHFT|B_H               , .kana = "ya"      }, // や
@@ -427,7 +427,7 @@ const PROGMEM naginata_keymap ngmap2[] = { // 薙刀式
   {.key = B_SLSH                   , .kana = "re"      }, // れ
   {.key = B_SHFT|B_SLSH            , .kana = "re"      }, // れ
   {.key = B_A                      , .kana = "ro"      }, // ろ
-  {.key = B_SHFT|B_DOT             , .kana = "wa"      }, // わ
+  {.key = B_SHFT|B_L               , .kana = "wa"      }, // わ
   {.key = B_SHFT|B_C               , .kana = "wo"      }, // を
   {.key = B_COMM                   , .kana = "nn"      }, // ん
   {.key = B_SCLN                   , .kana = "-"       }, // ー
@@ -445,20 +445,20 @@ const PROGMEM naginata_keymap ngmap2[] = { // 薙刀式
   {.key = B_J|B_B                  , .kana = "zo"      }, // ぞ
   {.key = B_F|B_N                  , .kana = "da"      }, // だ
   {.key = B_J|B_G                  , .kana = "di"      }, // ぢ
-  {.key = B_F|B_L                  , .kana = "du"      }, // づ
+  {.key = B_F|B_SCLN               , .kana = "du"      }, // づ
   {.key = B_J|B_E                  , .kana = "de"      }, // で
   {.key = B_J|B_D                  , .kana = "do"      }, // ど
   {.key = B_J|B_C                  , .kana = "ba"      }, // ば
   {.key = B_J|B_X                  , .kana = "bi"      }, // び
-  {.key = B_F|B_SCLN               , .kana = "bu"      }, // ぶ
+  {.key = B_F|B_DOT                , .kana = "bu"      }, // ぶ
   {.key = B_F|B_P                  , .kana = "be"      }, // べ
   {.key = B_J|B_Z                  , .kana = "bo"      }, // ぼ
-  {.key = B_Q                      , .kana = "vu"      }, // ゔ
+  {.key = B_F|B_L                  , .kana = "vu"      }, // ゔ
 
   // 半濁音
   {.key = B_M|B_C                  , .kana = "pa"      }, // ぱ
   {.key = B_M|B_X                  , .kana = "pi"      }, // ぴ
-  {.key = B_V|B_SCLN               , .kana = "pu"      }, // ぷ
+  {.key = B_V|B_DOT                , .kana = "pu"      }, // ぷ
   {.key = B_V|B_P                  , .kana = "pe"      }, // ぺ
   {.key = B_M|B_Z                  , .kana = "po"      }, // ぽ
 
@@ -471,10 +471,8 @@ const PROGMEM naginata_keymap ngmap2[] = { // 薙刀式
   {.key = B_Q|B_L                  , .kana = "xu"      }, // ぅ
   {.key = B_Q|B_O                  , .kana = "xe"      }, // ぇ
   {.key = B_Q|B_N                  , .kana = "xo"      }, // ぉ
-  {.key = B_Q|B_DOT                , .kana = "xwa"     }, // ゎ
+  {.key = B_Q|B_SHFT|B_L           , .kana = "xwa"     }, // ゎ
   {.key = B_G                      , .kana = "xtu"     }, // っ
-  {.key = B_Q|B_S                  , .kana = "xke"     }, // ヶ
-  {.key = B_Q|B_F                  , .kana = "xka"     }, // ヵ
 
   // 清音拗音 濁音拗音 半濁拗音
   {.key = B_R|B_H                  , .kana = "sya"     }, // しゃ
@@ -525,46 +523,52 @@ const PROGMEM naginata_keymap ngmap2[] = { // 薙刀式
   {.key = B_M|B_G|B_O              , .kana = "tye"     }, // ちぇ
   {.key = B_J|B_R|B_O              , .kana = "zye"     }, // じぇ
   {.key = B_J|B_G|B_O              , .kana = "dye"     }, // ぢぇ
-  {.key = B_V|B_SCLN|B_J           , .kana = "fa"      }, // ふぁ
-  {.key = B_V|B_SCLN|B_K           , .kana = "fi"      }, // ふぃ
-  {.key = B_V|B_SCLN|B_O           , .kana = "fe"      }, // ふぇ
-  {.key = B_V|B_SCLN|B_N           , .kana = "fo"      }, // ふぉ
-  {.key = B_V|B_SCLN|B_P           , .kana = "fyu"     }, // ふゅ
+  {.key = B_V|B_DOT|B_J            , .kana = "fa"      }, // ふぁ
+  {.key = B_V|B_DOT|B_K            , .kana = "fi"      }, // ふぃ
+  {.key = B_V|B_DOT|B_O            , .kana = "fe"      }, // ふぇ
+  {.key = B_V|B_DOT|B_N            , .kana = "fo"      }, // ふぉ
+  {.key = B_V|B_DOT|B_P            , .kana = "fyu"     }, // ふゅ
   {.key = B_V|B_K|B_O              , .kana = "ixe"     }, // いぇ
   {.key = B_V|B_L|B_K              , .kana = "wi"      }, // うぃ
   {.key = B_V|B_L|B_O              , .kana = "we"      }, // うぇ
   {.key = B_V|B_L|B_N              , .kana = "uxo"     }, // うぉ
-  {.key = B_M|B_Q|B_J              , .kana = "va"      }, // ゔぁ
-  {.key = B_M|B_Q|B_K              , .kana = "vi"      }, // ゔぃ
-  {.key = B_M|B_Q|B_O              , .kana = "ve"      }, // ゔぇ
-  {.key = B_M|B_Q|B_N              , .kana = "vo"      }, // ゔぉ
-  {.key = B_M|B_Q|B_P              , .kana = "vuxyu"   }, // ゔゅ
+  {.key = B_F|B_L|B_J              , .kana = "va"      }, // ゔぁ
+  {.key = B_F|B_L|B_K              , .kana = "vi"      }, // ゔぃ
+  {.key = B_F|B_L|B_O              , .kana = "ve"      }, // ゔぇ
+  {.key = B_F|B_L|B_N              , .kana = "vo"      }, // ゔぉ
+  {.key = B_F|B_L|B_P              , .kana = "vuxyu"   }, // ゔゅ
   {.key = B_V|B_H|B_J              , .kana = "kuxa"    }, // くぁ
   {.key = B_V|B_H|B_K              , .kana = "kuxi"    }, // くぃ
   {.key = B_V|B_H|B_O              , .kana = "kuxe"    }, // くぇ
   {.key = B_V|B_H|B_N              , .kana = "kuxo"    }, // くぉ
-  {.key = B_V|B_H|B_DOT            , .kana = "kuxwa"   }, // くゎ
+  {.key = B_V|B_H|B_L              , .kana = "kuxwa"   }, // くゎ
   {.key = B_F|B_H|B_J              , .kana = "guxa"    }, // ぐぁ
   {.key = B_F|B_H|B_K              , .kana = "guxi"    }, // ぐぃ
   {.key = B_F|B_H|B_O              , .kana = "guxe"    }, // ぐぇ
   {.key = B_F|B_H|B_N              , .kana = "guxo"    }, // ぐぉ
-  {.key = B_F|B_H|B_DOT            , .kana = "guxwa"   }, // ぐゎ
-  {.key = B_V|B_L|B_J              , .kana = "tsa"     }, // つぁ
+  {.key = B_F|B_H|B_L              , .kana = "guxwa"   }, // ぐゎ
+  {.key = B_V|B_SCLN|B_J           , .kana = "tsa"     }, // つぁ
+  {.key = B_V|B_SCLN|B_K           , .kana = "tsi"     }, // つぃ
+  {.key = B_V|B_SCLN|B_O           , .kana = "tse"     }, // つぇ
+  {.key = B_V|B_SCLN|B_N           , .kana = "tso"     }, // つぉ
 
   // 追加
   {.key = B_SHFT            , .kana = " "},
-  {.key = B_V|B_SHFT        , .kana = ","SS_TAP(X_ENTER)},
+  {.key = B_Q               , .kana = ""},
+  {.key = B_V|B_SHFT        , .kana = ","},
   {.key = B_M|B_SHFT        , .kana = "."SS_TAP(X_ENTER)},
-  {.key = B_U               , .kana = SS_TAP(X_BACKSPACE)},
+  {.key = B_U               , .kana = SS_TAP(X_BSPC)},
 
   // enter
   {.key = B_V|B_M           , .kana = SS_TAP(X_ENTER)},
   // enter+シフト(連続シフト)
   {.key = B_SHFT|B_V|B_M    , .kana = SS_TAP(X_ENTER)},
 
-  // 非標準の変換
-  {.key = B_X|B_C|B_M       , .kana = "pyu"     }, // ピュ
+  {.key = B_J|B_K|B_T       , .kana = "/"}, // ・
 
+  // 非標準の変換
+  {.key = B_V|B_DOT|B_COMM  , .kana = "fe"      }, // ふぇ
+  {.key = B_X|B_C|B_M       , .kana = "pyu"     }, // ピュ
 };
 
  // 新下駄
