@@ -868,9 +868,11 @@ bool process_naginata(uint16_t keycode, keyrecord_t *record) {
         ninputs[ng_chrcount] = keycode; // キー入力をバッファに貯める
         ng_chrcount++;
         keycomb |= ng_key[keycode - NG_Q]; // キーの重ね合わせ
-        // 2文字押したら処理を開始 // 新下駄
-        if (ng_chrcount > 1) { // 新下駄
-          naginata_type();
+        if(is_shingeta){
+            // 2文字押したら処理を開始 // 新下駄
+            if (ng_chrcount > 1) { // 新下駄
+                naginata_type();
+            }
         }
         return false;
         break;
