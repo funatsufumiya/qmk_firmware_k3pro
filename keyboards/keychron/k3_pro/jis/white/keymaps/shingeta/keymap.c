@@ -361,8 +361,21 @@ const PROGMEM naginata_keymap ngmap[] = { // 新下駄
   {.key = B_O|B_3     , .kana = "pyu"},
   {.key = B_O|B_4     , .kana = "pyo"},
 
-  // 新下駄　未完成のかな定義をここに追加する
+  // others
+  // [RF]・[RG]・　[HU]／
+  // [FG]「」　　　[HJ]（）
+  // [FV]！[FB]！　[NJ]？
 
+  {.key = B_R|B_F     , .kana = "/"},
+  {.key = B_R|B_G     , .kana = "/"},
+  {.key = B_F|B_G     , .kana = "()"SS_TAP(X_LEFT) },
+  {.key = B_F|B_V     , .kana = "!"},
+  {.key = B_F|B_B     , .kana = "!"},
+  {.key = B_N|B_J     , .kana = "?"},
+  {.key = B_H|B_J     , .kana = "[]"SS_TAP(X_LEFT) },
+  {.key = B_H|B_U     , .kana = "/"},
+
+  // 薙刀式
 //   // 単独
 //   {.key = B_Q               , .kana = "vu"},
 //   {.key = B_W               , .kana = "ha"},
