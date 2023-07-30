@@ -60,8 +60,6 @@ typedef enum naginata_keycodes {
   NG_DOT,
   NG_SLSH,
 
-  // NG_SHFT, // 新下駄
-
   NG_1, // 新下駄
   NG_2, // 新下駄
   NG_3, // 新下駄
@@ -75,9 +73,11 @@ typedef enum naginata_keycodes {
   NG_MINS, // 新下駄
 
   NG_X1, // 新下駄
+
+  NG_SHFT, // 新下駄
 } NGKEYS;
 
-#define NG_SAFE_RANGE SAFE_RANGE+42 // 新下駄
+#define NG_SAFE_RANGE SAFE_RANGE+43 // 新下駄
 
 #define KC_NGSHFT NGSHFT
 

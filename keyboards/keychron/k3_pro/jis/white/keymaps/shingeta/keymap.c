@@ -50,7 +50,9 @@ static uint8_t naginata_layer = 0; // レイヤー番号
 static uint8_t n_modifier = 0; // 押しているmodifierキーの数
 static uint64_t keycomb = (uint64_t)0; // 新下駄 // 同時押しの状態を示す。64bitの各ビットがキーに対応する。
 
-// 42ーを64bitの各ビットに割り当てる // 新下駄
+static bool is_shingeta = true;
+
+// 43ーを64bitの各ビットに割り当てる // 新下駄
 #define B_Q    ((uint64_t)1<<0)
 #define B_W    ((uint64_t)1<<1)
 #define B_E    ((uint64_t)1<<2)
@@ -87,8 +89,6 @@ static uint64_t keycomb = (uint64_t)0; // 新下駄 // 同時押しの状態を�
 #define B_DOT  ((uint64_t)1<<28)
 #define B_SLSH ((uint64_t)1<<29)
 
-// #define B_SHFT ((uint64_t)1<<30) // 新下駄
-
 #define B_1    ((uint64_t)1<<30) // 新下駄
 #define B_2    ((uint64_t)1<<31) // 新下駄
 #define B_3    ((uint64_t)1<<32) // 新下駄
@@ -102,6 +102,8 @@ static uint64_t keycomb = (uint64_t)0; // 新下駄 // 同時押しの状態を�
 #define B_MINS ((uint64_t)1<<40) // 新下駄
 
 #define B_X1   ((uint64_t)1<<41) // 新下駄
+
+#define B_SHFT ((uint64_t)1<<42)
 
 // 文字入力バッファ
 static uint16_t ninputs[NGBUFFER];
@@ -145,8 +147,6 @@ const uint64_t ng_key[] = { // 新下駄
   [NG_DOT  - NG_Q] = B_DOT,
   [NG_SLSH - NG_Q] = B_SLSH,
 
-  // [NG_SHFT - NG_Q] = B_SHFT, // 新下駄
-
   [NG_1    - NG_Q] = B_1, // 新下駄
   [NG_2    - NG_Q] = B_2, // 新下駄
   [NG_3    - NG_Q] = B_3, // 新下駄
@@ -160,6 +160,8 @@ const uint64_t ng_key[] = { // 新下駄
   [NG_MINS - NG_Q] = B_MINS, // 新下駄
 
   [NG_X1   - NG_Q] = B_X1, // 新下駄
+
+  [NG_SHFT - NG_Q] = B_SHFT, // 新下駄
 };
 
 // 薙刀式カナ変換テーブル // 新下駄
@@ -209,6 +211,7 @@ const PROGMEM naginata_keymap ngmap[] = { // 新下駄
   {.key = B_9               , .kana = "9"},
   {.key = B_0               , .kana = "0"},
   {.key = B_MINS            , .kana = "-"},
+  {.key = B_SHFT            , .kana = " "},
 
   {.key = B_Q               , .kana = "-"},
   {.key = B_W               , .kana = "ni"},
@@ -374,228 +377,193 @@ const PROGMEM naginata_keymap ngmap[] = { // 新下駄
   {.key = B_N|B_J     , .kana = "?"},
   {.key = B_H|B_J     , .kana = "[]"SS_TAP(X_LEFT) },
   {.key = B_H|B_U     , .kana = "/"},
+};
 
-  // 薙刀式
-//   // 単独
-//   {.key = B_Q               , .kana = "vu"},
-//   {.key = B_W               , .kana = "ha"},
-//   {.key = B_E               , .kana = "te"},
-//   {.key = B_R               , .kana = "si"},
-//   {.key = B_T               , .kana = SS_TAP(X_DOWN)},
-//   {.key = B_Y               , .kana = SS_TAP(X_UP)},
-//   {.key = B_U               , .kana = SS_TAP(X_BSPACE)},
-//   {.key = B_I               , .kana = "ru"},
-//   {.key = B_O               , .kana = "su"},
-//   {.key = B_P               , .kana = "he"},
-//   {.key = B_A               , .kana = "ro"},
-//   {.key = B_S               , .kana = "ki"},
-//   {.key = B_D               , .kana = "to"},
-//   {.key = B_F               , .kana = "ka"},
-//   {.key = B_G               , .kana = "ltu"},
-//   {.key = B_H               , .kana = "ku"},
-//   {.key = B_J               , .kana = "a"},
-//   {.key = B_K               , .kana = "i"},
-//   {.key = B_L               , .kana = "u"},
-//   {.key = B_SCLN            , .kana = "-"},
-//   {.key = B_Z               , .kana = "ho"},
-//   {.key = B_X               , .kana = "hi"},
-//   {.key = B_C               , .kana = "ke"},
-//   {.key = B_V               , .kana = "ko"},
-//   {.key = B_B               , .kana = "so"},
-//   {.key = B_N               , .kana = "ta"},
-//   {.key = B_M               , .kana = "na"},
-//   {.key = B_COMM            , .kana = "nn"},
-//   {.key = B_DOT             , .kana = "ra"},
-//   {.key = B_SLSH            , .kana = "re"},
-//   {.key = B_SHFT            , .kana = " "},
+const PROGMEM naginata_keymap ngmap2[] = { // 薙刀式
+  // 清音
+  {.key = B_J                      , .kana = "a"       }, // あ
+  {.key = B_K                      , .kana = "i"       }, // い
+  {.key = B_L                      , .kana = "u"       }, // う
+  {.key = B_SHFT|B_O               , .kana = "e"       }, // え
+  {.key = B_SHFT|B_N               , .kana = "o"       }, // お
+  {.key = B_F                      , .kana = "ka"      }, // か
+  {.key = B_W                      , .kana = "ki"      }, // き
+  {.key = B_H                      , .kana = "ku"      }, // く
+  {.key = B_S                      , .kana = "ke"      }, // け
+  {.key = B_V                      , .kana = "ko"      }, // こ
+  {.key = B_SHFT|B_U               , .kana = "sa"      }, // さ
+  {.key = B_R                      , .kana = "si"      }, // し
+  {.key = B_O                      , .kana = "su"      }, // す
+  {.key = B_SHFT|B_A               , .kana = "se"      }, // せ
+  {.key = B_B                      , .kana = "so"      }, // そ
+  {.key = B_N                      , .kana = "ta"      }, // た
+  {.key = B_SHFT|B_G               , .kana = "ti"      }, // ち
+  {.key = B_SHFT|B_L               , .kana = "tu"      }, // つ
+  {.key = B_E                      , .kana = "te"      }, // て
+  {.key = B_D                      , .kana = "to"      }, // と
+  {.key = B_M                      , .kana = "na"      }, // な
+  {.key = B_SHFT|B_D               , .kana = "ni"      }, // に
+  {.key = B_SHFT|B_W               , .kana = "nu"      }, // ぬ
+  {.key = B_SHFT|B_R               , .kana = "ne"      }, // ね
+  {.key = B_SHFT|B_J               , .kana = "no"      }, // の
+  {.key = B_C                      , .kana = "ha"      }, // は
+  {.key = B_X                      , .kana = "hi"      }, // ひ
+  {.key = B_SHFT|B_X               , .kana = "hi"      }, // ひ
+  {.key = B_SHFT|B_SCLN            , .kana = "hu"      }, // ふ
+  {.key = B_P                      , .kana = "he"      }, // へ
+  {.key = B_Z                      , .kana = "ho"      }, // ほ
+  {.key = B_SHFT|B_Z               , .kana = "ho"      }, // ほ
+  {.key = B_SHFT|B_F               , .kana = "ma"      }, // ま
+  {.key = B_SHFT|B_B               , .kana = "mi"      }, // み
+  {.key = B_SHFT|B_COMM            , .kana = "mu"      }, // む
+  {.key = B_SHFT|B_S               , .kana = "me"      }, // め
+  {.key = B_SHFT|B_K               , .kana = "mo"      }, // も
+  {.key = B_SHFT|B_H               , .kana = "ya"      }, // や
+  {.key = B_SHFT|B_P               , .kana = "yu"      }, // ゆ
+  {.key = B_SHFT|B_I               , .kana = "yo"      }, // よ
+  {.key = B_DOT                    , .kana = "ra"      }, // ら
+  {.key = B_SHFT|B_E               , .kana = "ri"      }, // り
+  {.key = B_I                      , .kana = "ru"      }, // る
+  {.key = B_SLSH                   , .kana = "re"      }, // れ
+  {.key = B_SHFT|B_SLSH            , .kana = "re"      }, // れ
+  {.key = B_A                      , .kana = "ro"      }, // ろ
+  {.key = B_SHFT|B_DOT             , .kana = "wa"      }, // わ
+  {.key = B_SHFT|B_C               , .kana = "wo"      }, // を
+  {.key = B_COMM                   , .kana = "nn"      }, // ん
+  {.key = B_SCLN                   , .kana = "-"       }, // ー
 
-//   // シフト
-//   {.key = B_SHFT|B_Q        , .kana = "vu"},
-//   {.key = B_SHFT|B_W        , .kana = "mi"},
-//   {.key = B_SHFT|B_E        , .kana = "ri"},
-//   {.key = B_SHFT|B_R        , .kana = "me"},
-//   {.key = B_SHFT|B_U        , .kana = "sa"},
-//   {.key = B_SHFT|B_I        , .kana = "yo"},
-//   {.key = B_SHFT|B_O        , .kana = "yu"},
-//   {.key = B_SHFT|B_P        , .kana = "e"},
-//   {.key = B_SHFT|B_A        , .kana = "se"},
-//   {.key = B_SHFT|B_S        , .kana = "ne"},
-//   {.key = B_SHFT|B_D        , .kana = "ni"},
-//   {.key = B_SHFT|B_F        , .kana = "ma"},
-//   {.key = B_SHFT|B_G        , .kana = "ti"},
-//   {.key = B_SHFT|B_H        , .kana = "wa"},
-//   {.key = B_SHFT|B_J        , .kana = "no"},
-//   {.key = B_SHFT|B_K        , .kana = "mo"},
-//   {.key = B_SHFT|B_L        , .kana = "tu"},
-//   {.key = B_SHFT|B_SCLN     , .kana = "ya"},
-//   {.key = B_SHFT|B_Z        , .kana = "ho"},
-//   {.key = B_SHFT|B_X        , .kana = "hi"},
-//   {.key = B_SHFT|B_C        , .kana = "wo"},
-//   {.key = B_SHFT|B_V        , .kana = ","},
-//   {.key = B_SHFT|B_B        , .kana = "nu"},
-//   {.key = B_SHFT|B_N        , .kana = "o"},
-//   {.key = B_SHFT|B_M        , .kana = "."SS_TAP(X_ENTER)},
-//   {.key = B_SHFT|B_COMM     , .kana = "mu"},
-//   {.key = B_SHFT|B_DOT      , .kana = "hu"},
-//   {.key = B_SHFT|B_SLSH     , .kana = "re"},
+  // 濁音
+  {.key = B_J|B_F                  , .kana = "ga"      }, // が
+  {.key = B_J|B_W                  , .kana = "gi"      }, // ぎ
+  {.key = B_F|B_H                  , .kana = "gu"      }, // ぐ
+  {.key = B_J|B_S                  , .kana = "ge"      }, // げ
+  {.key = B_J|B_V                  , .kana = "go"      }, // ご
+  {.key = B_F|B_U                  , .kana = "za"      }, // ざ
+  {.key = B_J|B_R                  , .kana = "zi"      }, // じ
+  {.key = B_F|B_O                  , .kana = "zu"      }, // ず
+  {.key = B_J|B_A                  , .kana = "ze"      }, // ぜ
+  {.key = B_J|B_B                  , .kana = "zo"      }, // ぞ
+  {.key = B_F|B_N                  , .kana = "da"      }, // だ
+  {.key = B_J|B_G                  , .kana = "di"      }, // ぢ
+  {.key = B_F|B_L                  , .kana = "du"      }, // づ
+  {.key = B_J|B_E                  , .kana = "de"      }, // で
+  {.key = B_J|B_D                  , .kana = "do"      }, // ど
+  {.key = B_J|B_C                  , .kana = "ba"      }, // ば
+  {.key = B_J|B_X                  , .kana = "bi"      }, // び
+  {.key = B_F|B_SCLN               , .kana = "bu"      }, // ぶ
+  {.key = B_F|B_P                  , .kana = "be"      }, // べ
+  {.key = B_J|B_Z                  , .kana = "bo"      }, // ぼ
+  {.key = B_Q                      , .kana = "vu"      }, // ゔ
 
-//   // 濁音
-//   {.key = B_J|B_W           , .kana = "ba"},
-//   {.key = B_J|B_E           , .kana = "de"},
-//   {.key = B_J|B_R           , .kana = "ji"},
-//   {.key = B_F|B_U           , .kana = "za"},
-//   {.key = B_F|B_O           , .kana = "zu"},
-//   {.key = B_F|B_P           , .kana = "be"},
-//   {.key = B_J|B_A           , .kana = "ze"},
-//   {.key = B_J|B_S           , .kana = "gi"},
-//   {.key = B_J|B_D           , .kana = "do"},
-//   {.key = B_J|B_F           , .kana = "ga"},
-//   {.key = B_J|B_G           , .kana = "di"},
-//   {.key = B_F|B_H           , .kana = "gu"},
-//   {.key = B_F|B_L           , .kana = "du"},
-//   {.key = B_J|B_Z           , .kana = "bo"},
-//   {.key = B_J|B_X           , .kana = "bi"},
-//   {.key = B_J|B_C           , .kana = "ge"},
-//   {.key = B_J|B_V           , .kana = "go"},
-//   {.key = B_J|B_B           , .kana = "zo"},
-//   {.key = B_F|B_N           , .kana = "da"},
-//   {.key = B_F|B_DOT         , .kana = "bu"},
+  // 半濁音
+  {.key = B_M|B_C                  , .kana = "pa"      }, // ぱ
+  {.key = B_M|B_X                  , .kana = "pi"      }, // ぴ
+  {.key = B_V|B_SCLN               , .kana = "pu"      }, // ぷ
+  {.key = B_V|B_P                  , .kana = "pe"      }, // ぺ
+  {.key = B_M|B_Z                  , .kana = "po"      }, // ぽ
 
-//   // 半濁音
-//   {.key = B_M|B_W           , .kana = "pa"},
-//   {.key = B_M|B_X           , .kana = "pi"},
-//   {.key = B_V|B_DOT         , .kana = "pu"},
-//   {.key = B_V|B_P           , .kana = "pe"},
-//   {.key = B_M|B_Z           , .kana = "po"},
+  // 小書き
+  {.key = B_Q|B_H                  , .kana = "xya"     }, // ゃ
+  {.key = B_Q|B_P                  , .kana = "xyu"     }, // ゅ
+  {.key = B_Q|B_I                  , .kana = "xyo"     }, // ょ
+  {.key = B_Q|B_J                  , .kana = "xa"      }, // ぁ
+  {.key = B_Q|B_K                  , .kana = "xi"      }, // ぃ
+  {.key = B_Q|B_L                  , .kana = "xu"      }, // ぅ
+  {.key = B_Q|B_O                  , .kana = "xe"      }, // ぇ
+  {.key = B_Q|B_N                  , .kana = "xo"      }, // ぉ
+  {.key = B_Q|B_DOT                , .kana = "xwa"     }, // ゎ
+  {.key = B_G                      , .kana = "xtu"     }, // っ
+  {.key = B_Q|B_S                  , .kana = "xke"     }, // ヶ
+  {.key = B_Q|B_F                  , .kana = "xka"     }, // ヵ
 
-//   // 小書き
-//   {.key = B_SHFT|B_V|B_J    , .kana = "la"},
-//   {.key = B_SHFT|B_V|B_K    , .kana = "li"},
-//   {.key = B_SHFT|B_V|B_L    , .kana = "lu"},
-//   {.key = B_SHFT|B_V|B_P    , .kana = "le"},
-//   {.key = B_SHFT|B_V|B_N    , .kana = "lo"},
+  // 清音拗音 濁音拗音 半濁拗音
+  {.key = B_R|B_H                  , .kana = "sya"     }, // しゃ
+  {.key = B_R|B_P                  , .kana = "syu"     }, // しゅ
+  {.key = B_R|B_I                  , .kana = "syo"     }, // しょ
+  {.key = B_J|B_R|B_H              , .kana = "zya"     }, // じゃ
+  {.key = B_J|B_R|B_P              , .kana = "zyu"     }, // じゅ
+  {.key = B_J|B_R|B_I              , .kana = "zyo"     }, // じょ
+  {.key = B_W|B_H                  , .kana = "kya"     }, // きゃ
+  {.key = B_W|B_P                  , .kana = "kyu"     }, // きゅ
+  {.key = B_W|B_I                  , .kana = "kyo"     }, // きょ
+  {.key = B_J|B_W|B_H              , .kana = "gya"     }, // ぎゃ
+  {.key = B_J|B_W|B_P              , .kana = "gyu"     }, // ぎゅ
+  {.key = B_J|B_W|B_I              , .kana = "gyo"     }, // ぎょ
+  {.key = B_G|B_H                  , .kana = "tya"     }, // ちゃ
+  {.key = B_G|B_P                  , .kana = "tyu"     }, // ちゅ
+  {.key = B_G|B_I                  , .kana = "tyo"     }, // ちょ
+  {.key = B_J|B_G|B_H              , .kana = "dya"     }, // ぢゃ
+  {.key = B_J|B_G|B_P              , .kana = "dyu"     }, // ぢゅ
+  {.key = B_J|B_G|B_I              , .kana = "dyo"     }, // ぢょ
+  {.key = B_D|B_H                  , .kana = "nya"     }, // にゃ
+  {.key = B_D|B_P                  , .kana = "nyu"     }, // にゅ
+  {.key = B_D|B_I                  , .kana = "nyo"     }, // にょ
+  {.key = B_X|B_H                  , .kana = "hya"     }, // ひゃ
+  {.key = B_X|B_P                  , .kana = "hyu"     }, // ひゅ
+  {.key = B_X|B_I                  , .kana = "hyo"     }, // ひょ
+  {.key = B_J|B_X|B_H              , .kana = "bya"     }, // びゃ
+  {.key = B_J|B_X|B_P              , .kana = "byu"     }, // びゅ
+  {.key = B_J|B_X|B_I              , .kana = "byo"     }, // びょ
+  {.key = B_M|B_X|B_H              , .kana = "pya"     }, // ぴゃ
+  {.key = B_M|B_X|B_P              , .kana = "pyu"     }, // ぴゅ
+  {.key = B_M|B_X|B_I              , .kana = "pyo"     }, // ぴょ
+  {.key = B_B|B_H                  , .kana = "mya"     }, // みゃ
+  {.key = B_B|B_P                  , .kana = "myu"     }, // みゅ
+  {.key = B_B|B_I                  , .kana = "myo"     }, // みょ
+  {.key = B_E|B_H                  , .kana = "rya"     }, // りゃ
+  {.key = B_E|B_P                  , .kana = "ryu"     }, // りゅ
+  {.key = B_E|B_I                  , .kana = "ryo"     }, // りょ
 
-//   // 拗音
-//   {.key = B_SHFT|B_V|B_SCLN , .kana = "lya"},
-//   {.key = B_SHFT|B_V|B_O    , .kana = "lyu"},
-//   {.key = B_SHFT|B_V|B_I    , .kana = "lyo"},
+  // 清音外来音 濁音外来音
+  {.key = B_M|B_E|B_K              , .kana = "thi"     }, // てぃ
+  {.key = B_M|B_E|B_P              , .kana = "thu"     }, // てゅ
+  {.key = B_J|B_E|B_K              , .kana = "dhi"     }, // でぃ
+  {.key = B_J|B_E|B_P              , .kana = "dhu"     }, // でゅ
+  {.key = B_M|B_D|B_L              , .kana = "toxu"    }, // とぅ
+  {.key = B_J|B_D|B_L              , .kana = "doxu"    }, // どぅ
+  {.key = B_M|B_R|B_O              , .kana = "sye"     }, // しぇ
+  {.key = B_M|B_G|B_O              , .kana = "tye"     }, // ちぇ
+  {.key = B_J|B_R|B_O              , .kana = "zye"     }, // じぇ
+  {.key = B_J|B_G|B_O              , .kana = "dye"     }, // ぢぇ
+  {.key = B_V|B_SCLN|B_J           , .kana = "fa"      }, // ふぁ
+  {.key = B_V|B_SCLN|B_K           , .kana = "fi"      }, // ふぃ
+  {.key = B_V|B_SCLN|B_O           , .kana = "fe"      }, // ふぇ
+  {.key = B_V|B_SCLN|B_N           , .kana = "fo"      }, // ふぉ
+  {.key = B_V|B_SCLN|B_P           , .kana = "fyu"     }, // ふゅ
+  {.key = B_V|B_K|B_O              , .kana = "ixe"     }, // いぇ
+  {.key = B_V|B_L|B_K              , .kana = "wi"      }, // うぃ
+  {.key = B_V|B_L|B_O              , .kana = "we"      }, // うぇ
+  {.key = B_V|B_L|B_N              , .kana = "uxo"     }, // うぉ
+  {.key = B_M|B_Q|B_J              , .kana = "va"      }, // ゔぁ
+  {.key = B_M|B_Q|B_K              , .kana = "vi"      }, // ゔぃ
+  {.key = B_M|B_Q|B_O              , .kana = "ve"      }, // ゔぇ
+  {.key = B_M|B_Q|B_N              , .kana = "vo"      }, // ゔぉ
+  {.key = B_M|B_Q|B_P              , .kana = "vuxyu"   }, // ゔゅ
+  {.key = B_V|B_H|B_J              , .kana = "kuxa"    }, // くぁ
+  {.key = B_V|B_H|B_K              , .kana = "kuxi"    }, // くぃ
+  {.key = B_V|B_H|B_O              , .kana = "kuxe"    }, // くぇ
+  {.key = B_V|B_H|B_N              , .kana = "kuxo"    }, // くぉ
+  {.key = B_V|B_H|B_DOT            , .kana = "kuxwa"   }, // くゎ
+  {.key = B_F|B_H|B_J              , .kana = "guxa"    }, // ぐぁ
+  {.key = B_F|B_H|B_K              , .kana = "guxi"    }, // ぐぃ
+  {.key = B_F|B_H|B_O              , .kana = "guxe"    }, // ぐぇ
+  {.key = B_F|B_H|B_N              , .kana = "guxo"    }, // ぐぉ
+  {.key = B_F|B_H|B_DOT            , .kana = "guxwa"   }, // ぐゎ
+  {.key = B_V|B_L|B_J              , .kana = "tsa"     }, // つぁ
 
-//   // 拗音同時
-//   {.key = B_S|B_SCLN        , .kana = "kya"},
-//   {.key = B_S|B_O           , .kana = "kyu"},
-//   {.key = B_S|B_I           , .kana = "kyo"},
-//   {.key = B_R|B_SCLN        , .kana = "sya"},
-//   {.key = B_R|B_O           , .kana = "syu"},
-//   {.key = B_R|B_I           , .kana = "syo"},
-//   {.key = B_G|B_SCLN        , .kana = "tya"},
-//   {.key = B_G|B_O           , .kana = "tyu"},
-//   {.key = B_G|B_I           , .kana = "tyo"},
-//   {.key = B_D|B_SCLN        , .kana = "nya"},
-//   {.key = B_D|B_O           , .kana = "nyu"},
-//   {.key = B_D|B_I           , .kana = "nyo"},
-//   {.key = B_X|B_SCLN        , .kana = "hya"},
-//   {.key = B_X|B_O           , .kana = "hyu"},
-//   {.key = B_X|B_I           , .kana = "hyo"},
-//   {.key = B_W|B_SCLN        , .kana = "mya"},
-//   {.key = B_W|B_O           , .kana = "myu"},
-//   {.key = B_W|B_I           , .kana = "myo"},
-//   {.key = B_E|B_SCLN        , .kana = "rya"},
-//   {.key = B_E|B_O           , .kana = "ryu"},
-//   {.key = B_E|B_I           , .kana = "ryo"},
+  // 追加
+  {.key = B_SHFT            , .kana = " "},
+  {.key = B_V|B_SHFT        , .kana = ","SS_TAP(X_ENTER)},
+  {.key = B_M|B_SHFT        , .kana = "."SS_TAP(X_ENTER)},
+  {.key = B_U               , .kana = SS_TAP(X_BACKSPACE)},
 
-//   // 濁音拗音同時
-//   {.key = B_J|B_S|B_SCLN    , .kana = "gya"},
-//   {.key = B_J|B_S|B_O       , .kana = "gyu"},
-//   {.key = B_J|B_S|B_I       , .kana = "gyo"},
-//   {.key = B_J|B_R|B_SCLN    , .kana = "jya"},
-//   {.key = B_J|B_R|B_O       , .kana = "jyu"},
-//   {.key = B_J|B_R|B_I       , .kana = "jyo"},
-//   {.key = B_J|B_G|B_SCLN    , .kana = "dya"},
-//   {.key = B_J|B_G|B_O       , .kana = "dyu"},
-//   {.key = B_J|B_G|B_I       , .kana = "dyo"},
-//   {.key = B_J|B_X|B_SCLN    , .kana = "bya"},
-//   {.key = B_J|B_X|B_O       , .kana = "byu"},
-//   {.key = B_J|B_X|B_I       , .kana = "byo"},
+  // enter
+  {.key = B_V|B_M           , .kana = SS_TAP(X_ENTER)},
+  // enter+シフト(連続シフト)
+  {.key = B_SHFT|B_V|B_M    , .kana = SS_TAP(X_ENTER)},
 
-//   // 半濁音拗音同時
-//   {.key = B_M|B_X|B_SCLN    , .kana = "pya"},
-//   {.key = B_M|B_X|B_O       , .kana = "pyu"},
-//   {.key = B_M|B_X|B_I       , .kana = "pyo"},
-
-//   // 外来音
-//   {.key = B_Q|B_J           , .kana = "va"},
-//   {.key = B_Q|B_K           , .kana = "vi"},
-//   {.key = B_Q|B_L           , .kana = "vyu"},
-//   {.key = B_Q|B_P           , .kana = "ve"},
-//   {.key = B_Q|B_N           , .kana = "vo"},
-//   {.key = B_E|B_K           , .kana = "teli"},
-//   {.key = B_E|B_L           , .kana = "telu"},
-//   {.key = B_R|B_P           , .kana = "sye"},
-//   {.key = B_D|B_L           , .kana = "tolu"},
-//   {.key = B_G|B_P           , .kana = "tile"},
-//   {.key = B_L|B_K           , .kana = "uli"},
-//   {.key = B_L|B_P           , .kana = "ule"},
-//   {.key = B_L|B_N           , .kana = "ulo"},
-//   {.key = B_DOT|B_J         , .kana = "fa"},
-//   {.key = B_DOT|B_K         , .kana = "fi"},
-//   {.key = B_DOT|B_L         , .kana = "fyu"},
-//   {.key = B_DOT|B_P         , .kana = "fe"},
-//   {.key = B_DOT|B_N         , .kana = "fo"},
-
-//   // シフト外来音
-//   {.key = B_SHFT|B_L|B_J    , .kana = "tula"},
-//   {.key = B_SHFT|B_L|B_K    , .kana = "tuli"},
-//   {.key = B_SHFT|B_L|B_P    , .kana = "tule"},
-//   {.key = B_SHFT|B_L|B_N    , .kana = "tulo"},
-
-//   // 濁音外来音
-//   {.key = B_E|B_J|B_K       , .kana = "deli"},
-//   {.key = B_E|B_J|B_L       , .kana = "delu"},
-//   {.key = B_R|B_J|B_P       , .kana = "je"},
-//   {.key = B_D|B_J|B_L       , .kana = "dolu"},
-//   {.key = B_G|B_J|B_P       , .kana = "dile"},
-
-//   // enter
-//   {.key = B_V|B_M           , .kana = SS_TAP(X_ENTER)},
-
-//   // 編集モード1
-//   {.key = B_J|B_K|B_E       , .kana = "deli"},
-//   {.key = B_J|B_K|B_R       , .kana = ""},
-
-// #ifdef NAGINATA_EDIT_WIN
-//   {.key = B_D|B_F|B_I       , .kana = SS_TAP(X_INT4)},
-//   {.key = B_J|B_K|B_A       , .kana = SS_LCTRL("y")},
-//   {.key = B_J|B_K|B_S       , .kana = SS_LCTRL("s")},
-//   {.key = B_J|B_K|B_Z       , .kana = SS_LCTRL("z")},
-//   {.key = B_J|B_K|B_X       , .kana = SS_LCTRL("x")},
-//   {.key = B_J|B_K|B_C       , .kana = SS_LCTRL("c")},
-//   {.key = B_J|B_K|B_V       , .kana = SS_LCTRL("v")},
-//   {.key = B_D|B_F|B_SCLN    , .kana = SS_LCTRL("i")},
-//   {.key = B_D|B_F|B_SLSH    , .kana = SS_LCTRL("u")},
-// #endif
-// #ifdef NAGINATA_EDIT_MAC
-//   {.key = B_D|B_F|B_I       , .kana = SS_TAP(X_LANG1)SS_TAP(X_LANG1)},
-//   {.key = B_J|B_K|B_A       , .kana = SS_LGUI("y")},
-//   {.key = B_J|B_K|B_S       , .kana = SS_LGUI("s")},
-//   {.key = B_J|B_K|B_Z       , .kana = SS_LGUI("z")},
-//   {.key = B_J|B_K|B_X       , .kana = SS_LGUI("x")},
-//   {.key = B_J|B_K|B_C       , .kana = SS_LGUI("c")},
-//   {.key = B_J|B_K|B_V       , .kana = SS_LGUI("v")},
-//   {.key = B_D|B_F|B_SCLN    , .kana = SS_LCTRL("k")},
-//   {.key = B_D|B_F|B_SLSH    , .kana = SS_LCTRL("j")},
-// #endif
-//   {.key = B_J|B_K|B_D       , .kana = SS_TAP(X_PGUP)},
-//   {.key = B_J|B_K|B_F       , .kana = SS_TAP(X_PGDOWN)},
-
-//   {.key = B_D|B_F|B_O       , .kana = SS_TAP(X_DELETE)},
-
-//   {.key = B_D|B_F|B_J       , .kana = SS_TAP(X_LEFT)},
-//   {.key = B_D|B_F|B_M       , .kana = SS_TAP(X_RIGHT)},
-
-//   // 編集モード2
-//   {.key = B_M|B_COMM|B_D    , .kana = "!"SS_TAP(X_ENTER)},
-//   {.key = B_M|B_COMM|B_F    , .kana = "?"SS_TAP(X_ENTER)},
-//   {.key = B_M|B_COMM|B_B    , .kana = "   "},
+  // 非標準の変換
+  {.key = B_X|B_C|B_M       , .kana = "pyu"     }, // ピュ
 
 };
 
@@ -785,12 +753,23 @@ void naginata_type(void) {
       // }
       // #endif
       // 順序なし
-      for (int i = 0; i < sizeof ngmap / sizeof bngmap; i++) {
-        memcpy_P(&bngmap, &ngmap[i], sizeof(bngmap));
-        if (keycomb == bngmap.key) {
-          send_string(bngmap.kana);
-          naginata_clear();
-          return;
+      if(is_shingeta){
+        for (int i = 0; i < sizeof ngmap / sizeof bngmap; i++) {
+            memcpy_P(&bngmap, &ngmap[i], sizeof(bngmap));
+            if (keycomb == bngmap.key) {
+            send_string(bngmap.kana);
+            naginata_clear();
+            return;
+            }
+        }
+      }else{
+        for (int i = 0; i < sizeof ngmap2 / sizeof bngmap; i++) {
+            memcpy_P(&bngmap, &ngmap2[i], sizeof(bngmap));
+            if (keycomb == bngmap.key) {
+            send_string(bngmap.kana);
+            naginata_clear();
+            return;
+            }
         }
       }
       // // 順序なしロング // 新下駄
@@ -813,15 +792,29 @@ void naginata_type(void) {
       //   }
       // }
       // 連続押しの場合 ngmapに定義されていない
-      for (int j = 0; j < ng_chrcount; j++) {
-        skey = ng_key[ninputs[j] - NG_Q];
-        // if ((keycomb & B_SHFT) > 0) skey |= B_SHFT; // シフトキー状態を反映 // 新下駄
-        for (int i = 0; i < sizeof ngmap / sizeof bngmap; i++) {
-          memcpy_P(&bngmap, &ngmap[i], sizeof(bngmap));
-          if (skey == bngmap.key) {
-            send_string(bngmap.kana);
-            break;
-          }
+      if(is_shingeta){
+        for (int j = 0; j < ng_chrcount; j++) {
+            skey = ng_key[ninputs[j] - NG_Q];
+            // if ((keycomb & B_SHFT) > 0) skey |= B_SHFT; // シフトキー状態を反映 // 新下駄
+            for (int i = 0; i < sizeof ngmap / sizeof bngmap; i++) {
+                memcpy_P(&bngmap, &ngmap[i], sizeof(bngmap));
+                if (skey == bngmap.key) {
+                    send_string(bngmap.kana);
+                    break;
+                }
+            }
+        }
+      }else{
+        for (int j = 0; j < ng_chrcount; j++) {
+            skey = ng_key[ninputs[j] - NG_Q];
+            // if ((keycomb & B_SHFT) > 0) skey |= B_SHFT; // シフトキー状態を反映 // 新下駄
+            for (int i = 0; i < sizeof ngmap2 / sizeof bngmap; i++) {
+                memcpy_P(&bngmap, &ngmap2[i], sizeof(bngmap));
+                if (skey == bngmap.key) {
+                    send_string(bngmap.kana);
+                    break;
+                }
+            }
         }
       }
   }
@@ -871,7 +864,7 @@ bool process_naginata(uint16_t keycode, keyrecord_t *record) {
 
   if (record->event.pressed) {
     switch (keycode) {
-      case NG_Q ... NG_X1: // 新下駄
+      case NG_Q ... NG_SHFT: // 新下駄
         ninputs[ng_chrcount] = keycode; // キー入力をバッファに貯める
         ng_chrcount++;
         keycomb |= ng_key[keycode - NG_Q]; // キーの重ね合わせ
@@ -884,7 +877,7 @@ bool process_naginata(uint16_t keycode, keyrecord_t *record) {
     }
   } else { // key release
     switch (keycode) {
-      case NG_Q ... NG_X1: // 新下駄
+      case NG_Q ... NG_SHFT: // 新下駄
         // 3文字入力していなくても、どれかキーを離したら処理を開始する
         if (ng_chrcount > 0) {
           naginata_type();
@@ -975,7 +968,8 @@ enum custom_keycodes {
   BACKLIT,
   KANA2,
   UNDGL,
-  RGBRST
+  RGBRST,
+  SWSGT // 新下駄 or 薙刀式のトグル
 };
 
 #define CTLTB CTL_T(KC_TAB)
@@ -1233,7 +1227,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_LCTL,  KC_LOPTN, KC_LCMMD, KC_LNG2,                      KC_SPC,                       KC_LNG1,  KC_RCMMD, MO_MAFN,  KC_LEFT,  KC_UP,    KC_DOWN,  KC_RGHT),
 
     [MAC_ASTARTE_FN] = LAYOUT(
-        _______,  KC_F1,    KC_F2,    KC_F3,    KC_F4,    KC_F5,    KC_F6,    KC_F7,    KC_F8,    KC_F9,    KC_F10,   KC_F11,   KC_F12,   TO_MACB,  TO_WINB,  BL_TOGG,
+        _______,  KC_F1,    KC_F2,    KC_F3,    KC_F4,    KC_F5,    KC_F6,    KC_F7,    KC_F8,    KC_F9,    KC_F10,   KC_F11,   KC_F12,   TO_MACB,  TO_WINB,  SWSGT,
         _______,  BT_HST1,  BT_HST2,  BT_HST3,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,
         BL_TOGG,  BL_STEP,  BL_UP,    _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,                      _______,
         _______,  _______,  BL_DOWN,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,            _______,
@@ -1307,10 +1301,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_TAB,  NG_Q,     NG_W,     NG_E,     NG_R,     NG_T,     NG_Y,     NG_U,     NG_I,     NG_O,     NG_P,     NG_X1,    KC_RBRC,                      KC_PGDN,
         KC_LCTL, NG_A,     NG_S,     NG_D,     NG_F,     NG_G,     NG_H,     NG_J,     NG_K,     NG_L,     NG_SCLN,  KC_BSPC,  _______,  _______,            _______,
         KC_LSFT,           NG_Z,     NG_X,     NG_C,     NG_V,     NG_B,     NG_N,     NG_M,     NG_COMM,  NG_DOT,   NG_SLSH,  _______,  _______,            _______,
-        KC_LCTL, _______,  _______,  _______,                      _______,                      _______,  _______,  _______,  _______,  _______,  _______,  _______),
+        KC_LCTL, _______,  _______,  _______,                      NG_SHFT,                      _______,  _______,  _______,  _______,  _______,  _______,  _______),
 
     [MAC_FN] = LAYOUT(
-        _______,  KC_F1,    KC_F2,    KC_F3,    KC_F4,    KC_F5,    KC_F6,    KC_F7,    KC_F8,    KC_F9,    KC_F10,   KC_F11,   KC_F12,   TO_MAST,  TO_WINB,  BL_TOGG,
+        _______,  KC_F1,    KC_F2,    KC_F3,    KC_F4,    KC_F5,    KC_F6,    KC_F7,    KC_F8,    KC_F9,    KC_F10,   KC_F11,   KC_F12,   TO_MAST,  TO_WINB,  SWSGT,
         _______,  BT_HST1,  BT_HST2,  BT_HST3,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,
         BL_TOGG,  BL_STEP,  BL_UP,    _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,                      _______,
         _______,  _______,  BL_DOWN,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,            _______,
@@ -1326,7 +1320,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_LCTL,  KC_LGUI,  KC_LALT,  KC_INT5,                      KC_SPC,                       KC_INT4,  KC_RALT, MO(WIN_FN),KC_LEFT,  KC_UP,    KC_DOWN,  KC_RGHT),
 
     [WIN_FN] = LAYOUT(
-        _______,  KC_BRID,  KC_BRIU,  KC_TASK,  KC_FILE,  BL_DOWN,  BL_UP,    KC_MPRV,  KC_MPLY,  KC_MNXT,  KC_MUTE,  KC_VOLD,  KC_VOLU,  TO_WAST,  TO_MACB,  BL_TOGG,
+        _______,  KC_BRID,  KC_BRIU,  KC_TASK,  KC_FILE,  BL_DOWN,  BL_UP,    KC_MPRV,  KC_MPLY,  KC_MNXT,  KC_MUTE,  KC_VOLD,  KC_VOLU,  TO_WAST,  TO_MACB,  SWSGT,
         _______,  BT_HST1,  BT_HST2,  BT_HST3,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,
         BL_TOGG,  BL_STEP,  BL_UP,    _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,                      _______,
         _______,  _______,  BL_DOWN,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,            _______,
@@ -1342,7 +1336,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_LCTL,  KC_LGUI,  KC_LALT,  KC_INT5,                      KC_SPC,                       KC_INT4,  KC_RALT,  MO_WIFN,  KC_LEFT,  KC_UP,    KC_DOWN,  KC_RGHT),
 
     [WIN_ASTARTE_FN] = LAYOUT(
-        _______,  KC_BRID,  KC_BRIU,  KC_TASK,  KC_FILE,  BL_DOWN,  BL_UP,    KC_MPRV,  KC_MPLY,  KC_MNXT,  KC_MUTE,  KC_VOLD,  KC_VOLU,  TO_WINB,  TO_MACB,  BL_TOGG,
+        _______,  KC_BRID,  KC_BRIU,  KC_TASK,  KC_FILE,  BL_DOWN,  BL_UP,    KC_MPRV,  KC_MPLY,  KC_MNXT,  KC_MUTE,  KC_VOLD,  KC_VOLU,  TO_WINB,  TO_MACB,  SWSGT,
         _______,  BT_HST1,  BT_HST2,  BT_HST3,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,
         BL_TOGG,  BL_STEP,  BL_UP,    _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,                      _______,
         _______,  _______,  BL_DOWN,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,            _______,
@@ -1384,6 +1378,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   }
 
   switch (keycode) {
+    case SWSGT: // toggle is_shingeta
+        if (record->event.pressed) {
+            is_shingeta = !is_shingeta;
+        }
+        return false;
+        break;
     case QWERTY:
       if (record->event.pressed) {
         persistent_default_layer_set(1UL<<_QWERTY);
