@@ -380,6 +380,19 @@ const PROGMEM naginata_keymap ngmap[] = { // 新下駄
 };
 
 const PROGMEM naginata_keymap ngmap2[] = { // 薙刀式
+  // 単独
+  {.key = B_1               , .kana = "1"},
+  {.key = B_2               , .kana = "2"},
+  {.key = B_3               , .kana = "3"},
+  {.key = B_4               , .kana = "4"},
+  {.key = B_5               , .kana = "5"},
+  {.key = B_6               , .kana = "6"},
+  {.key = B_7               , .kana = "7"},
+  {.key = B_8               , .kana = "8"},
+  {.key = B_9               , .kana = "9"},
+  {.key = B_0               , .kana = "0"},
+  {.key = B_MINS            , .kana = "-"},
+
   // 清音
   {.key = B_J                      , .kana = "a"       }, // あ
   {.key = B_K                      , .kana = "i"       }, // い
@@ -563,6 +576,10 @@ const PROGMEM naginata_keymap ngmap2[] = { // 薙刀式
   {.key = B_V|B_M           , .kana = SS_TAP(X_ENTER)},
   // enter+シフト(連続シフト)
   {.key = B_SHFT|B_V|B_M    , .kana = SS_TAP(X_ENTER)},
+  // left
+  {.key = B_T               , .kana = SS_TAP(X_LEFT)},
+  // right
+  {.key = B_Y               , .kana = SS_TAP(X_RIGHT)},
 
   {.key = B_J|B_K|B_T       , .kana = "/"}, // ・
 
@@ -1229,7 +1246,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_GRV,   KC_1,     KC_2,     KC_3,     KC_4,     KC_5,     KC_6,     KC_7,     KC_8,     KC_9,     KC_0,     KC_MINS,  KC_EQL,   KC_INT3,  KC_BSPC,  KC_PGUP,
         KC_TAB,   KC_Q,     KC_X,     KC_U,     KC_Y,     KC_SLSH,  KC_J,     KC_D,     KC_H,     KC_G,     KC_W,     KC_Z,     KC_LBRC,                      KC_PGDN,
         KC_LCTL,  KC_I,     KC_O,     KC_E,     KC_A,     KC_DOT,   KC_K,     KC_T,     KC_N,     KC_S,     KC_R,     KC_P,     KC_NUHS,  KC_ENT,             KC_HOME,
-        KC_LSFT,            KC_QUOT,  KC_MINS,  KC_COMM,  KC_C,     KC_SCLN,  KC_M,     KC_L,     KC_L,     KC_B,     KC_V,     KC_INT1,  KC_RSFT,            KC_END,
+        KC_LSFT,            KC_QUOT,  KC_MINS,  KC_COMM,  KC_C,     KC_SCLN,  KC_M,     KC_L,     KC_F,     KC_B,     KC_V,     KC_INT1,  KC_RSFT,            KC_END,
         KC_LCTL,  KC_LOPTN, KC_LCMMD, KC_LNG2,                      KC_SPC,                       KC_LNG1,  KC_RCMMD, MO_MAFN,  KC_LEFT,  KC_UP,    KC_DOWN,  KC_RGHT),
 
     [MAC_ASTARTE_FN] = LAYOUT(
