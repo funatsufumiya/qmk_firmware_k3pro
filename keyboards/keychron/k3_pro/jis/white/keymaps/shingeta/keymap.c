@@ -371,11 +371,11 @@ const PROGMEM naginata_keymap ngmap[] = { // 新下駄
 
   {.key = B_R|B_F     , .kana = "/"},
   {.key = B_R|B_G     , .kana = "/"},
-  {.key = B_F|B_G     , .kana = "()"SS_TAP(X_LEFT) },
+  {.key = B_F|B_G     , .kana = "*("SS_TAP(X_LEFT) }, // （）←
   {.key = B_F|B_V     , .kana = "!"},
   {.key = B_F|B_B     , .kana = "!"},
   {.key = B_N|B_J     , .kana = "?"},
-  {.key = B_H|B_J     , .kana = "[]"SS_TAP(X_LEFT) },
+  {.key = B_H|B_J     , .kana = "]\\"SS_TAP(X_LEFT) }, // 「」←
   {.key = B_H|B_U     , .kana = "/"},
 };
 
@@ -581,7 +581,13 @@ const PROGMEM naginata_keymap ngmap2[] = { // 薙刀式
   // right
   {.key = B_Y               , .kana = SS_TAP(X_RIGHT)},
 
-  {.key = B_J|B_K|B_T       , .kana = "/"}, // ・
+  {.key = B_J|B_K|B_T       , .kana = "/"},  // ・
+  {.key = B_J|B_K|B_F       , .kana = "]\\"}, // 「」
+  {.key = B_J|B_K|B_D       , .kana = "?"},  // ？
+  {.key = B_J|B_K|B_C       , .kana = "!"},  // ！
+  {.key = B_J|B_K|B_S       , .kana = "*("},  //（）
+  {.key = B_J|B_K|B_X       , .kana = "`{"},  //｛｝
+  {.key = B_J|B_K|B_A       , .kana = "///"},  // ・
 
   // 非標準の変換
   {.key = B_V|B_DOT|B_COMM  , .kana = "fe"      }, // ふぇ
