@@ -423,7 +423,7 @@ const PROGMEM naginata_keymap ngmap2[] = { // 薙刀式
   {.key = B_C                      , .kana = "ha"      }, // は
   {.key = B_X                      , .kana = "hi"      }, // ひ
   {.key = B_SHFT|B_X               , .kana = "hi"      }, // ひ
-  {.key = B_SHFT|B_DOT             , .kana = "hu"      }, // ふ
+  {.key = B_SHFT|B_DOT             , .kana = "wa"      }, // わ
   {.key = B_P                      , .kana = "he"      }, // へ
   {.key = B_Z                      , .kana = "ho"      }, // ほ
   {.key = B_SHFT|B_Z               , .kana = "ho"      }, // ほ
