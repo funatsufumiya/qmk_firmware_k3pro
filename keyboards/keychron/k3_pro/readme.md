@@ -1,6 +1,6 @@
 # Keychron K3 Pro
 
-※ K3 Pro (White) で新下駄配列＋薙刀式配列を打つために、KeychronのQMK Firmwareを用いて、eswaiさんの新下駄配列・薙刀式配列を移植しています。
+※ K3 Pro (White) で新下駄配列＋薙刀式配列を打つために、KeychronのQMK Firmwareを用いて、eswaiさんの新下駄配列・薙刀式配列を移植しています。（keymap名は `naginata_v15_and_shingeta`）
 
 ![Keychron K3 Pro](https://github.com/Keychron/ProductImage/blob/main/K_Pro/k3_pro.jpg?raw=true)
 
