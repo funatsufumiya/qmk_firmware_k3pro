@@ -1,5 +1,7 @@
 # Keychron K3 Pro
 
+※ K3 Pro (White) で新下駄配列＋薙刀式配列を打つために、KeychronのQMK Firmwareを用いて、eswaiさんの新下駄配列・薙刀式配列を移植しています。
+
 ![Keychron K3 Pro](https://github.com/Keychron/ProductImage/blob/main/K_Pro/k3_pro.jpg?raw=true)
 
 A customizable 84 keys TKL keyboard.
