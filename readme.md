@@ -1,6 +1,6 @@
 (NOTE: forked from [Keychron/qmk_firmware bluetooth_playground branch for keychron k3 pro](https://github.com/Keychron/qmk_firmware/tree/bluetooth_playground/keyboards/keychron/k3_pro))
 
-## K3 Pro
+## K3 Pro (White) で新下駄配列＋薙刀式配列
 
 see [keyboards/keychron/k3_pro/readme.md](keyboards/keychron/k3_pro/readme.md)
 
