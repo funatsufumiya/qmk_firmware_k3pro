@@ -4,7 +4,7 @@
 
 see [keyboards/keychron/k3_pro/readme.md](keyboards/keychron/k3_pro/readme.md)
 
-make commmand: `make keychron/k3_pro/jis/white:default:flash`
+make commmand: `make keychron/k3_pro/jis/white:naginata_v15_and_shingeta:flash`
 
 ----
 
