@@ -2,7 +2,7 @@
 
 ※ K3 Pro (White) で新下駄配列＋薙刀式配列を打つために、KeychronのQMK Firmwareを用いて、[eswaiさんの新下駄配列・薙刀式配列](https://github.com/eswai/qmk_firmware/tree/master/keyboards/crkbd/keymaps)を移植しています。（keymap名は `naginata_v15_and_shingeta`）
 
-Fn + LEDで新下駄・薙刀式の切り替え、Fn + スナップショットボタンでQwertyとAstarte+の切り替えができるようにしています。英数キーで英字、かなキーでかな入力に切り替えできます。（ブログ記事: https://funatsufumiya.hatenablog.com/entry/2023/08/01/063522 ）
+Fn + LED（最右上のキー）で新下駄・薙刀式の切り替え、Fn + スナップショットボタンでQwertyとAstarte+の切り替えができるようにしています。英数キーで英字、かなキーでかな入力に切り替えできます。（ブログ記事: https://funatsufumiya.hatenablog.com/entry/2023/08/01/063522 ）
 
 ![Keychron K3 Pro](https://github.com/Keychron/ProductImage/blob/main/K_Pro/k3_pro.jpg?raw=true)
 
