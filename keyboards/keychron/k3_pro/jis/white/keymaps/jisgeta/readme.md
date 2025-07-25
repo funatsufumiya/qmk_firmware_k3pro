@@ -1,11 +1,10 @@
 # crkbd / K3 Pro 用 新下駄キーマップ
 
-新下駄・薙刀式での日本語かな入力をQMKで実現します。
+JIS下駄・薙刀式での日本語かな入力をQMKで実現します。
 
-### 新下駄とは
+### JIS下駄とは
 
-新下駄配列を作りました
-https://kouy.exblog.jp/13627994/
+https://github.com/funatsufumiya/jis_geta
 
 ### 薙刀式とは
 

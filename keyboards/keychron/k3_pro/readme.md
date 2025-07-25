@@ -4,6 +4,8 @@
 
 Fn + LED（最右上のキー）で新下駄・薙刀式の切り替え、Fn + スナップショットボタンでQwertyとAstarte+の切り替えができるようにしています。英数キーで英字、かなキーでかな入力に切り替えできます。（ブログ記事: https://funatsufumiya.hatenablog.com/entry/2023/08/01/063522 ）
 
+※ 【2025/7/25 追記】`naginata_v15_and_shingeta` と同様に、`jisgeta`でJIS下駄配列に対応しています。新下駄の代わりにJIS下駄が打てるようになっていて、薙刀式等への切り替え方法は同じです。
+
 ![Keychron K3 Pro](https://github.com/Keychron/ProductImage/blob/main/K_Pro/k3_pro.jpg?raw=true)
 
 A customizable 84 keys TKL keyboard.
