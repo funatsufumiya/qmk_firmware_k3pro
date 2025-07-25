@@ -54,7 +54,7 @@ static uint64_t keycomb = (uint64_t)0; // 新下駄 // 同時押しの状態を�
 
 static bool is_shingeta = true;
 
-// 43ーを64bitの各ビットに割り当てる // 新下駄
+// 49キーを64bitの各ビットに割り当てる // 新下駄
 #define KB_Q    ((uint64_t)1<<0)
 #define KB_W    ((uint64_t)1<<1)
 #define KB_E    ((uint64_t)1<<2)
@@ -106,6 +106,13 @@ static bool is_shingeta = true;
 #define KB_X1   ((uint64_t)1<<41) // 新下駄
 
 #define KB_SHFT ((uint64_t)1<<42)
+
+#define KB_HAT ((uint64_t)1<<43) // JIS下駄
+#define KB_YEN ((uint64_t)1<<44) // JIS下駄
+#define KB_LB ((uint64_t)1<<45) // JIS下駄
+#define KB_RB ((uint64_t)1<<46) // JIS下駄
+#define KB_COLO ((uint64_t)1<<47) // JIS下駄
+#define KB_BSLSH ((uint64_t)1<<48) // JIS下駄
 
 // 文字入力バッファ
 static uint16_t ninputs[NGBUFFER];
@@ -164,6 +171,13 @@ const uint64_t ng_key[] = { // 新下駄
   [NG_X1   - NG_Q] = KB_X1, // 新下駄
 
   [NG_SHFT - NG_Q] = KB_SHFT, // 新下駄
+
+  [NG_HAT  - NG_Q] = KB_HAT, // JIS下駄
+  [NG_YEN  - NG_Q] = KB_YEN, // JIS下駄
+  [NG_LB   - NG_Q] = KB_LB, // JIS下駄
+  [NG_RB   - NG_Q] = KB_RB, // JIS下駄
+  [NG_COLO - NG_Q] = KB_COLO, // JIS下駄
+  [NG_BSLSH- NG_Q] = KB_BSLSH, // JIS下駄
 };
 
 // 薙刀式カナ変換テーブル // 新下駄
@@ -213,6 +227,8 @@ const PROGMEM naginata_keymap ngmap[] = { // 新下駄
   {.key = KB_9               , .kana = "yo"},
   {.key = KB_0               , .kana = "wa"},
   {.key = KB_MINS            , .kana = "ho"},
+  {.key = KB_HAT             , .kana = "he"},
+  {.key = KB_YEN             , .kana = "wo"},
   {.key = KB_SHFT            , .kana = " "},
 
   {.key = KB_Q               , .kana = "ta"},
@@ -226,28 +242,32 @@ const PROGMEM naginata_keymap ngmap[] = { // 新下駄
   {.key = KB_O               , .kana = "ra"},
   {.key = KB_P               , .kana = "se"},
   {.key = KB_X1              , .kana = "tu"},
+  {.key = KB_LB              , .kana = "-"},
 
-  {.key = KB_A               , .kana = "no"},
+  {.key = KB_A               , .kana = "ti"},
   {.key = KB_S               , .kana = "to"},
-  {.key = KB_D               , .kana = "ka"},
-  {.key = KB_F               , .kana = "nn"},
-  {.key = KB_G               , .kana = "ltu"},
+  {.key = KB_D               , .kana = "si"},
+  {.key = KB_F               , .kana = "ha"},
+  {.key = KB_G               , .kana = "ki"},
   {.key = KB_H               , .kana = "ku"},
-  {.key = KB_J               , .kana = "u"},
-  {.key = KB_K               , .kana = "i"},
-  {.key = KB_L               , .kana = "si"},
-  {.key = KB_SCLN            , .kana = "na"},
+  {.key = KB_J               , .kana = "ma"},
+  {.key = KB_K               , .kana = "no"},
+  {.key = KB_L               , .kana = "ri"},
+  {.key = KB_SCLN            , .kana = "re"},
+  {.key = KB_COLO            , .kana = "ke"},
+  {.key = KB_RB              , .kana = "mu"},
 
-  {.key = KB_Z               , .kana = "su"},
-  {.key = KB_X               , .kana = "ma"},
-  {.key = KB_C               , .kana = "ki"},
-  {.key = KB_V               , .kana = "ru"},
-  {.key = KB_B               , .kana = "tu"},
-  {.key = KB_N               , .kana = "te"},
-  {.key = KB_M               , .kana = "ta"},
-  {.key = KB_COMM            , .kana = "de"},
-  {.key = KB_DOT             , .kana = "."},
-  {.key = KB_SLSH            , .kana = "bu"},
+  {.key = KB_Z               , .kana = "tu"},
+  {.key = KB_X               , .kana = "sa"},
+  {.key = KB_C               , .kana = "so"},
+  {.key = KB_V               , .kana = "hi"},
+  {.key = KB_B               , .kana = "ko"},
+  {.key = KB_N               , .kana = "mi"},
+  {.key = KB_M               , .kana = "mo"},
+  {.key = KB_COMM            , .kana = "ne"},
+  {.key = KB_DOT             , .kana = "ru"},
+  {.key = KB_SLSH            , .kana = "me"},
+  {.key = KB_BSLSH           , .kana = "ro"},
 
   // 中指シフト
   {.key = KB_K|KB_Q        , .kana = "fa"},
@@ -888,7 +908,7 @@ bool process_naginata(uint16_t keycode, keyrecord_t *record) {
 
   if (record->event.pressed) {
     switch (keycode) {
-      case NG_Q ... NG_SHFT: // 新下駄
+      case NG_Q ... NG_BSLSH: // 新下駄
         ninputs[ng_chrcount] = keycode; // キー入力をバッファに貯める
         ng_chrcount++;
         keycomb |= ng_key[keycode - NG_Q]; // キーの重ね合わせ
@@ -903,7 +923,7 @@ bool process_naginata(uint16_t keycode, keyrecord_t *record) {
     }
   } else { // key release
     switch (keycode) {
-      case NG_Q ... NG_SHFT: // 新下駄
+      case NG_Q ... NG_BSLSH: // 新下駄
         // 3文字入力していなくても、どれかキーを離したら処理を開始する
         if (ng_chrcount > 0) {
           naginata_type();
@@ -1323,10 +1343,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [_NAGINATA] = LAYOUT(
         _______, _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,
-        _______, NG_1,     NG_2,     NG_3,     NG_4,     NG_5,     NG_6,     NG_7,     NG_8,     NG_9,     NG_0,     NG_MINS,  KC_EQL,   KC_INT3,  KC_BSPC,  KC_PGUP,
-        KC_TAB,  NG_Q,     NG_W,     NG_E,     NG_R,     NG_T,     NG_Y,     NG_U,     NG_I,     NG_O,     NG_P,     NG_X1,    KC_RBRC,                      KC_PGDN,
-        KC_LCTL, NG_A,     NG_S,     NG_D,     NG_F,     NG_G,     NG_H,     NG_J,     NG_K,     NG_L,     NG_SCLN,  KC_BSPC,  _______,  _______,            _______,
-        KC_LSFT,           NG_Z,     NG_X,     NG_C,     NG_V,     NG_B,     NG_N,     NG_M,     NG_COMM,  NG_DOT,   NG_SLSH,  _______,  _______,            _______,
+        _______, NG_1,     NG_2,     NG_3,     NG_4,     NG_5,     NG_6,     NG_7,     NG_8,     NG_9,     NG_0,     NG_MINS,  NG_HAT,   NG_YEN,   KC_BSPC,  KC_PGUP,
+        KC_TAB,  NG_Q,     NG_W,     NG_E,     NG_R,     NG_T,     NG_Y,     NG_U,     NG_I,     NG_O,     NG_P,     NG_X1,    NG_LB,                        KC_PGDN,
+        KC_LCTL, NG_A,     NG_S,     NG_D,     NG_F,     NG_G,     NG_H,     NG_J,     NG_K,     NG_L,     NG_SCLN,  NG_COLO,  NG_RB,    _______,            _______,
+        KC_LSFT,           NG_Z,     NG_X,     NG_C,     NG_V,     NG_B,     NG_N,     NG_M,     NG_COMM,  NG_DOT,   NG_SLSH,  NG_BSLSH, _______,            _______,
         KC_LCTL, _______,  _______,  _______,                      NG_SHFT,                      _______,  _______,  _______,  _______,  _______,  _______,  _______),
 
     [MAC_FN] = LAYOUT(
