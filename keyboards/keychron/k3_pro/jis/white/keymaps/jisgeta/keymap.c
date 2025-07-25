@@ -54,7 +54,7 @@ static uint64_t keycomb = (uint64_t)0; // 新下駄 // 同時押しの状態を�
 
 static bool is_shingeta = true;
 
-// 49キーを64bitの各ビットに割り当てる // 新下駄
+// 50キーを64bitの各ビットに割り当てる // 新下駄
 #define KB_Q    ((uint64_t)1<<0)
 #define KB_W    ((uint64_t)1<<1)
 #define KB_E    ((uint64_t)1<<2)
@@ -113,6 +113,7 @@ static bool is_shingeta = true;
 #define KB_RB ((uint64_t)1<<46) // JIS下駄
 #define KB_COLO ((uint64_t)1<<47) // JIS下駄
 #define KB_BSLSH ((uint64_t)1<<48) // JIS下駄
+#define KB_LSFT ((uint64_t)1<<49) // JIS下駄
 
 // 文字入力バッファ
 static uint16_t ninputs[NGBUFFER];
@@ -178,6 +179,7 @@ const uint64_t ng_key[] = { // 新下駄
   [NG_RB   - NG_Q] = KB_RB, // JIS下駄
   [NG_COLO - NG_Q] = KB_COLO, // JIS下駄
   [NG_BSLSH- NG_Q] = KB_BSLSH, // JIS下駄
+  [NG_LSFT - NG_Q] = KB_LSFT, // JIS下駄
 };
 
 // 薙刀式カナ変換テーブル // 新下駄
@@ -269,6 +271,30 @@ const PROGMEM naginata_keymap ngmap[] = { // 新下駄
   {.key = KB_SLSH            , .kana = "me"},
   {.key = KB_BSLSH           , .kana = "ro"},
 
+  // 通常シフト
+  {.key = KB_LSFT|KB_1        , .kana = "!"},
+  {.key = KB_LSFT|KB_3        , .kana = "xa"},
+  {.key = KB_LSFT|KB_5        , .kana = "xe"},
+  {.key = KB_LSFT|KB_6        , .kana = "xo"},
+  {.key = KB_LSFT|KB_7        , .kana = "xya"},
+  {.key = KB_LSFT|KB_8        , .kana = "xyu"},
+  {.key = KB_LSFT|KB_9        , .kana = "xyo"},
+  {.key = KB_LSFT|KB_0        , .kana = "wo"},
+
+  {.key = KB_LSFT|KB_E        , .kana = "xi"},
+
+  {.key = KB_LSFT|KB_J        , .kana = "xu"},
+
+  {.key = KB_LSFT|KB_LB       , .kana = "("},
+  {.key = KB_LSFT|KB_RB       , .kana = ")"},
+  {.key = KB_LSFT|KB_SCLN     , .kana = "+"},
+  {.key = KB_LSFT|KB_COLO     , .kana = "*"},
+
+  {.key = KB_LSFT|KB_COMM     , .kana = ","},
+  {.key = KB_LSFT|KB_DOT      , .kana = "."},
+  {.key = KB_LSFT|KB_SLSH     , .kana = "?"},
+  {.key = KB_LSFT|KB_BSLSH    , .kana = "_"},
+
   // 中指シフト
   {.key = KB_K|KB_1        , .kana = "!"},
   {.key = KB_K|KB_2        , .kana = "bu"},
@@ -299,7 +325,7 @@ const PROGMEM naginata_keymap ngmap[] = { // 新下駄
   {.key = KB_K|KB_S        , .kana = "do"},
   {.key = KB_K|KB_D        , .kana = "ji"},
   {.key = KB_K|KB_F        , .kana = "ba"},
-  {.key = KB_K|KB_G        , .kana = "gi"},
+  // {.key = KB_K|KB_G        , .kana = ""},
   {.key = KB_D|KB_H        , .kana = "gu"},
   {.key = KB_D|KB_J        , .kana = "vu"},
   {.key = KB_D|KB_K        , .kana = "ji"},
@@ -308,7 +334,7 @@ const PROGMEM naginata_keymap ngmap[] = { // 新下駄
   {.key = KB_D|KB_COLO     , .kana = "ge"},
   {.key = KB_D|KB_RB       , .kana = "]"},
 
-  {.key = KB_K|KB_Z        , .kana = "du"},
+  {.key = KB_K|KB_Z        , .kana = "gi"},
   {.key = KB_K|KB_X        , .kana = "za"},
   {.key = KB_K|KB_C        , .kana = "zo"},
   {.key = KB_K|KB_V        , .kana = "bi"},
@@ -854,7 +880,7 @@ void naginata_type(void) {
       if(is_shingeta){
         for (int j = 0; j < ng_chrcount; j++) {
             skey = ng_key[ninputs[j] - NG_Q];
-            // if ((keycomb & KB_SHFT) > 0) skey |= KB_SHFT; // シフトキー状態を反映 // 新下駄
+            if ((keycomb & KB_LSFT) > 0) skey |= KB_LSFT; // シフトキー状態を反映 // 新下駄
             for (int i = 0; i < sizeof ngmap / sizeof bngmap; i++) {
                 memcpy_P(&bngmap, &ngmap[i], sizeof(bngmap));
                 if (skey == bngmap.key) {
@@ -866,7 +892,7 @@ void naginata_type(void) {
       }else{
         for (int j = 0; j < ng_chrcount; j++) {
             skey = ng_key[ninputs[j] - NG_Q];
-            // if ((keycomb & KB_SHFT) > 0) skey |= KB_SHFT; // シフトキー状態を反映 // 新下駄
+            if ((keycomb & KB_LSFT) > 0) skey |= KB_LSFT; // シフトキー状態を反映 // 新下駄
             for (int i = 0; i < sizeof ngmap2 / sizeof bngmap; i++) {
                 memcpy_P(&bngmap, &ngmap2[i], sizeof(bngmap));
                 if (skey == bngmap.key) {
@@ -923,7 +949,7 @@ bool process_naginata(uint16_t keycode, keyrecord_t *record) {
 
   if (record->event.pressed) {
     switch (keycode) {
-      case NG_Q ... NG_BSLSH: // 新下駄
+      case NG_Q ... NG_LSFT: // 新下駄
         ninputs[ng_chrcount] = keycode; // キー入力をバッファに貯める
         ng_chrcount++;
         keycomb |= ng_key[keycode - NG_Q]; // キーの重ね合わせ
@@ -938,7 +964,7 @@ bool process_naginata(uint16_t keycode, keyrecord_t *record) {
     }
   } else { // key release
     switch (keycode) {
-      case NG_Q ... NG_BSLSH: // 新下駄
+      case NG_Q ... NG_LSFT: // 新下駄
         // 3文字入力していなくても、どれかキーを離したら処理を開始する
         if (ng_chrcount > 0) {
           naginata_type();
@@ -1361,7 +1387,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______, NG_1,     NG_2,     NG_3,     NG_4,     NG_5,     NG_6,     NG_7,     NG_8,     NG_9,     NG_0,     NG_MINS,  NG_HAT,   NG_YEN,   KC_BSPC,  KC_PGUP,
         KC_TAB,  NG_Q,     NG_W,     NG_E,     NG_R,     NG_T,     NG_Y,     NG_U,     NG_I,     NG_O,     NG_P,     NG_X1,    NG_LB,                        KC_PGDN,
         KC_LCTL, NG_A,     NG_S,     NG_D,     NG_F,     NG_G,     NG_H,     NG_J,     NG_K,     NG_L,     NG_SCLN,  NG_COLO,  NG_RB,    _______,            _______,
-        KC_LSFT,           NG_Z,     NG_X,     NG_C,     NG_V,     NG_B,     NG_N,     NG_M,     NG_COMM,  NG_DOT,   NG_SLSH,  NG_BSLSH, _______,            _______,
+        NG_LSFT,           NG_Z,     NG_X,     NG_C,     NG_V,     NG_B,     NG_N,     NG_M,     NG_COMM,  NG_DOT,   NG_SLSH,  NG_BSLSH, _______,            _______,
         KC_LCTL, _______,  _______,  _______,                      NG_SHFT,                      _______,  _______,  _______,  _______,  _______,  _______,  _______),
 
     [MAC_FN] = LAYOUT(
