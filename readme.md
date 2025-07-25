@@ -6,6 +6,12 @@ see [keyboards/keychron/k3_pro/readme.md](keyboards/keychron/k3_pro/readme.md)
 
 make commmand: `make keychron/k3_pro/jis/white:naginata_v15_and_shingeta:flash`
 
+## K3 Pro (White) でJIS下駄配列＋薙刀式配列
+
+see [keyboards/keychron/k3_pro/readme.md](keyboards/keychron/k3_pro/readme.md)
+
+make commmand: `make keychron/k3_pro/jis/white:jisgeta:flash`
+
 ----
 
 # Quantum Mechanical Keyboard Firmware
