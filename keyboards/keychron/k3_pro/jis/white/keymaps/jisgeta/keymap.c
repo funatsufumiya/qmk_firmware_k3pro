@@ -250,7 +250,7 @@ const PROGMEM naginata_keymap ngmap[] = { // 新下駄
   {.key = KB_S               , .kana = "to"},
   {.key = KB_D               , .kana = "si"},
   {.key = KB_F               , .kana = "ha"},
-  {.key = KB_G               , .kana = "ki"},
+  {.key = KB_G               , .kana = "xtu"},
   {.key = KB_H               , .kana = "ku"},
   {.key = KB_J               , .kana = "u"},
   {.key = KB_K               , .kana = "no"},
@@ -259,7 +259,7 @@ const PROGMEM naginata_keymap ngmap[] = { // 新下駄
   {.key = KB_COLO            , .kana = "ke"},
   {.key = KB_RB              , .kana = "mu"},
 
-  {.key = KB_Z               , .kana = "tu"},
+  {.key = KB_Z               , .kana = "ki"},
   {.key = KB_X               , .kana = "sa"},
   {.key = KB_C               , .kana = "so"},
   {.key = KB_V               , .kana = "hi"},
